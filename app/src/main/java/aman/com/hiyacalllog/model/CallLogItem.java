@@ -86,6 +86,7 @@ public class CallLogItem {
     }
 
     public void setPhoneNumber(String phoneNumber) {
+        phoneNumber = phoneNumber.replaceAll(" ", "");
         phoneNumber = phoneNumber.substring(phoneNumber.length() - 10, phoneNumber.length());
         phoneNumber = "+1 (" + phoneNumber.substring(0, 3) + ") " + phoneNumber.substring(3, 6) + "-" +
                 phoneNumber.substring(6, phoneNumber.length());
