@@ -11,7 +11,7 @@ import aman.com.hiyacalllog.ui.base.BaseView;
 
 public interface MainView extends BaseView {
 
-    void displayCallLog(ArrayList<CallLogItem> callLog);
+    void updateCallLog(ArrayList<CallLogItem> callLog);
 
     void displayError();
 

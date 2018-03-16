@@ -1,5 +1,6 @@
 package aman.com.hiyacalllog.ui.main;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     MainPresenter mPresenter;
     @BindView(R.id.call_log_list) RecyclerView mCallLog;
+    CallListAdapter mCallLogAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +32,20 @@ public class MainActivity extends AppCompatActivity implements MainView {
         mPresenter = new MainPresenter(this, getSupportLoaderManager());
         mPresenter.attachView(this);
 
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        mCallLog.setLayoutManager(layoutManager);
+        mCallLogAdapter = new CallListAdapter();
+        mCallLog.setAdapter(mCallLogAdapter);
+
         mPresenter.loadCallLog();
     }
 
     @Override
-    public void displayCallLog(ArrayList<CallLogItem> callLog) {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        mCallLog.setLayoutManager(layoutManager);
-        mCallLog.setAdapter(new CallListAdapter(callLog));
+    public void updateCallLog(ArrayList<CallLogItem> callLog) {
+        if (mCallLogAdapter == null) {
+            mCallLogAdapter = new CallListAdapter();
+        }
+        mCallLogAdapter.setData(callLog);
     }
 
     @Override
@@ -55,12 +63,18 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case Utils.Constants.CALL_LOG_PERMISSION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            case Utils.Constants.MULTIPLE_PERMISSIONS_CODE:
+                if (grantResults.length <= 0){
+                    break;
+                }
+                boolean logPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+//                boolean statePermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                if (logPermission) {
                     mPresenter.loadCallLog();
                 } else {
-                    /* TODO display error */
+                    displayError();
                 }
+                break;
         }
     }
 }

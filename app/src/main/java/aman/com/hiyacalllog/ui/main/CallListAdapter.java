@@ -23,7 +23,11 @@ import butterknife.ButterKnife;
 
 public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.ViewHolder> {
 
-    ArrayList<CallLogItem> mCallLogItems;
+    private ArrayList<CallLogItem> mCallLogItems;
+
+    public CallListAdapter() {
+        mCallLogItems = new ArrayList<>();
+    }
 
     public CallListAdapter(ArrayList<CallLogItem> callLogItems) {
         mCallLogItems = callLogItems;
@@ -60,5 +64,10 @@ public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.ViewHo
             super(view);
             ButterKnife.bind(this, view);
         }
+    }
+
+    public void setData(ArrayList<CallLogItem> data) {
+        mCallLogItems = data;
+        notifyDataSetChanged();
     }
 }

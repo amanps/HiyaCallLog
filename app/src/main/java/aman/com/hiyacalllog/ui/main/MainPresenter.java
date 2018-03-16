@@ -33,8 +33,11 @@ public class MainPresenter extends BasePresenter<MainView> implements LoaderMana
     }
 
     protected void loadCallLog() {
-        if (!Utils.isPermissionGranted(mContext, Manifest.permission.READ_CALL_LOG)) {
-            Utils.requestPermission((Activity) mContext, Manifest.permission.READ_CALL_LOG, Utils.Constants.CALL_LOG_PERMISSION);
+        if (!Utils.isPermissionGranted(mContext, Manifest.permission.READ_CALL_LOG) ||
+                !Utils.isPermissionGranted(mContext, Manifest.permission.PROCESS_OUTGOING_CALLS)) {
+            Utils.requestPermissions((Activity) mContext,
+                    new String[]{Manifest.permission.READ_CALL_LOG, Manifest.permission.PROCESS_OUTGOING_CALLS},
+                    Utils.Constants.MULTIPLE_PERMISSIONS_CODE);
             return;
         }
         mLoaderManager.initLoader(0, null, this);
@@ -46,8 +49,7 @@ public class MainPresenter extends BasePresenter<MainView> implements LoaderMana
                 CallLog.Calls.DATE,
                 CallLog.Calls.DURATION,
                 CallLog.Calls.TYPE,
-                CallLog.Calls.NUMBER,
-                CallLog.Calls.CACHED_PHOTO_URI
+                CallLog.Calls.NUMBER
         };
         return new CursorLoader(mContext, CallLog.Calls.CONTENT_URI, projection, null,
                 null, CallLog.Calls.DATE + " DESC limit " + Utils.Constants.LOG_SIZE);
@@ -61,7 +63,7 @@ public class MainPresenter extends BasePresenter<MainView> implements LoaderMana
             callLogItems.add(new CallLogItem(data));
             data.moveToNext();
         }
-        getView().displayCallLog(callLogItems);
+        getView().updateCallLog(callLogItems);
     }
 
     @Override

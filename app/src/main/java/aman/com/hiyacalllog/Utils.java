@@ -18,15 +18,16 @@ public class Utils {
                 == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static void requestPermission(Context context, String permission, int requestCode) {
+    public static void requestPermissions(Context context, String[] permissions, int requestCode) {
         ActivityCompat.requestPermissions((Activity) context,
-                new String[]{permission},
+                permissions,
                 requestCode);
     }
 
     public static class Constants {
         public static final int LOG_SIZE = 50;
-        public static final int CALL_LOG_PERMISSION = 0;
+        public static final int CALL_LOG_PERMISSION_CODE = 0;
+        public static final int MULTIPLE_PERMISSIONS_CODE = 1;
     }
 
 }
