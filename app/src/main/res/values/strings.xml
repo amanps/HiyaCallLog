@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HiyaCallLog</string>
+    <string name="hash">#</string>
 </resources>

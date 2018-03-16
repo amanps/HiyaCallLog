@@ -4,6 +4,8 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -11,15 +13,19 @@ import java.util.ArrayList;
 import aman.com.hiyacalllog.R;
 import aman.com.hiyacalllog.Utils;
 import aman.com.hiyacalllog.model.CallLogItem;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
     MainPresenter mPresenter;
+    @BindView(R.id.call_log_list) RecyclerView mCallLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         mPresenter = new MainPresenter(this, getSupportLoaderManager());
         mPresenter.attachView(this);
@@ -29,7 +35,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void displayCallLog(ArrayList<CallLogItem> callLog) {
-        Log.d("MainActivity", "Call List: " + callLog.get(0).getPhoneNumber());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        mCallLog.setLayoutManager(layoutManager);
+        mCallLog.setAdapter(new CallListAdapter(callLog));
     }
 
     @Override

@@ -46,7 +46,8 @@ public class MainPresenter extends BasePresenter<MainView> implements LoaderMana
                 CallLog.Calls.DATE,
                 CallLog.Calls.DURATION,
                 CallLog.Calls.TYPE,
-                CallLog.Calls.NUMBER
+                CallLog.Calls.NUMBER,
+                CallLog.Calls.CACHED_PHOTO_URI
         };
         return new CursorLoader(mContext, CallLog.Calls.CONTENT_URI, projection, null,
                 null, CallLog.Calls.DATE + " DESC limit " + Utils.Constants.LOG_SIZE);
