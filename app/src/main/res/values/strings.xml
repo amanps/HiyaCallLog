@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">HiyaCallLog</string>
     <string name="hash">#</string>
+    <string name="i_understand">I UNDERSTAND</string>
+    <string name="deny">DENY</string>
+    <string name="permissions_request_message">To display your call logs, we need permission to access your calls.</string>
+    <string name="permissions_denied">This app displays a beautiful log of your recent calls.\nPlease provide permission
+    to access your call logs to see it!</string>
 </resources>

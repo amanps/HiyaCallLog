@@ -8,4 +8,7 @@ import aman.com.hiyacalllog.ui.base.Presenter;
 
 public interface MainMvpPresenter<V extends MainView> extends Presenter<V> {
     void loadCallLog();
+    boolean arePermissionsGranted();
+    void requestPermissionsWithRationale();
+    void requestPermissions();
 }

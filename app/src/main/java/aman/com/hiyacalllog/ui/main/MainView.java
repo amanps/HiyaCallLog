@@ -15,4 +15,8 @@ public interface MainView extends BaseView {
 
     void displayError();
 
+    void dismissError();
+
+    void displayPermissionExplanationDialog();
+
 }

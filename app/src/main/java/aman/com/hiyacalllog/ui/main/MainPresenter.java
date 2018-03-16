@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.CallLog;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -34,16 +35,41 @@ public class MainPresenter<V extends MainView> extends BasePresenter<V> implemen
     @Override
     public void loadCallLog() {
         getView().displayProgressBar();
-        if (!Utils.isPermissionGranted(mContext, Manifest.permission.READ_CALL_LOG) ||
-                !Utils.isPermissionGranted(mContext, Manifest.permission.PROCESS_OUTGOING_CALLS)) {
-            Utils.requestPermissions((Activity) mContext,
-                    new String[]{Manifest.permission.READ_CALL_LOG,
-                            Manifest.permission.PROCESS_OUTGOING_CALLS,
-                            Manifest.permission.READ_PHONE_STATE},
-                    Utils.Constants.MULTIPLE_PERMISSIONS_CODE);
-            return;
+        if (arePermissionsGranted()) {
+            mLoaderManager.initLoader(0, null, this);
+        } else {
+            requestPermissionsWithRationale();
         }
-        mLoaderManager.initLoader(0, null, this);
+    }
+
+    @Override
+    public boolean arePermissionsGranted() {
+        return Utils.isPermissionGranted(mContext, Manifest.permission.READ_CALL_LOG) &&
+                Utils.isPermissionGranted(mContext, Manifest.permission.PROCESS_OUTGOING_CALLS) &&
+                Utils.isPermissionGranted(mContext, Manifest.permission.READ_PHONE_STATE);
+    }
+
+    @Override
+    public void requestPermissionsWithRationale() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) mContext,
+                Manifest.permission.READ_CALL_LOG) ||
+                ActivityCompat.shouldShowRequestPermissionRationale((Activity) mContext,
+                        Manifest.permission.PROCESS_OUTGOING_CALLS) ||
+                ActivityCompat.shouldShowRequestPermissionRationale((Activity) mContext,
+                        Manifest.permission.READ_PHONE_STATE)) {
+            getView().displayPermissionExplanationDialog();
+        } else {
+            requestPermissions();
+        }
+    }
+
+    @Override
+    public void requestPermissions() {
+        Utils.requestPermissions(mContext,
+                new String[]{Manifest.permission.READ_CALL_LOG,
+                        Manifest.permission.PROCESS_OUTGOING_CALLS,
+                        Manifest.permission.READ_PHONE_STATE},
+                Utils.Constants.MULTIPLE_PERMISSIONS_CODE);
     }
 
     @Override

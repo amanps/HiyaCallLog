@@ -77,7 +77,9 @@ public class CallLogItem {
                 mTypeColor = Color.RED;
                 break;
             default:
-                mType = "UNKNOWN";
+                // Usually happens when you dismiss the call without picking up. Could also tag
+                // this as REJECTED.
+                mType = "MISSED";
                 mTypeColor = Color.RED;
                 break;
         }
