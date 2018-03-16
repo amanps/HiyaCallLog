@@ -1,13 +1,13 @@
 package aman.com.hiyacalllog.ui.main;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,10 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements MainView {
 
     MainPresenter mPresenter;
+
     @BindView(R.id.call_log_list) RecyclerView mCallLog;
+    @BindView(R.id.progress_indictor) ProgressBar mProgressBar;
+
     CallListAdapter mCallLogAdapter;
 
     @Override
@@ -42,10 +45,23 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void updateCallLog(ArrayList<CallLogItem> callLog) {
+        dismissProgressBar();
         if (mCallLogAdapter == null) {
             mCallLogAdapter = new CallListAdapter();
         }
         mCallLogAdapter.setData(callLog);
+    }
+
+    @Override
+    public void displayProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mCallLog.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void dismissProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
+        mCallLog.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -77,4 +93,5 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 break;
         }
     }
+
 }

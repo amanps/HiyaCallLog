@@ -5,4 +5,8 @@ package aman.com.hiyacalllog.ui.base;
  */
 
 public interface BaseView {
+
+    void displayProgressBar();
+
+    void dismissProgressBar();
 }

@@ -33,10 +33,13 @@ public class MainPresenter extends BasePresenter<MainView> implements LoaderMana
     }
 
     protected void loadCallLog() {
+        getView().displayProgressBar();
         if (!Utils.isPermissionGranted(mContext, Manifest.permission.READ_CALL_LOG) ||
                 !Utils.isPermissionGranted(mContext, Manifest.permission.PROCESS_OUTGOING_CALLS)) {
             Utils.requestPermissions((Activity) mContext,
-                    new String[]{Manifest.permission.READ_CALL_LOG, Manifest.permission.PROCESS_OUTGOING_CALLS},
+                    new String[]{Manifest.permission.READ_CALL_LOG,
+                            Manifest.permission.PROCESS_OUTGOING_CALLS,
+                            Manifest.permission.READ_PHONE_STATE},
                     Utils.Constants.MULTIPLE_PERMISSIONS_CODE);
             return;
         }

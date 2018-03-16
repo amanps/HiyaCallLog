@@ -31,6 +31,7 @@ public class BasePresenter<T extends BaseView> implements Presenter<T> {
     }
 
     public T getView() {
+        checkViewAttached();
         return mView;
     }
 }
