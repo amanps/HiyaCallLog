@@ -78,7 +78,7 @@ public class CallLogItem {
                 break;
             default:
                 mType = "UNKNOWN";
-                mTypeColor = Color.GREEN;
+                mTypeColor = Color.RED;
                 break;
         }
     }
