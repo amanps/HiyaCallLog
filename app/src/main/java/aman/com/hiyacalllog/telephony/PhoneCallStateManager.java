@@ -1,4 +1,4 @@
-package aman.com.hiyacalllog.Telephony;
+package aman.com.hiyacalllog.telephony;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.provider.CallLog;
