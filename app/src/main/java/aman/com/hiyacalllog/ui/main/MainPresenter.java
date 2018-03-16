@@ -4,18 +4,17 @@ package aman.com.hiyacalllog.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.CallLog;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
+
+import java.util.ArrayList;
 
 import aman.com.hiyacalllog.Utils;
+import aman.com.hiyacalllog.model.CallLogItem;
 import aman.com.hiyacalllog.ui.base.BasePresenter;
 
 /**
@@ -55,7 +54,13 @@ public class MainPresenter extends BasePresenter<MainView> implements LoaderMana
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.d("MainPresenter", "Load finished");
+        ArrayList<CallLogItem> callLogItems = new ArrayList<>();
+        data.moveToFirst();
+        while (!data.isAfterLast()) {
+            callLogItems.add(new CallLogItem(data));
+            data.moveToNext();
+        }
+        getView().displayCallLog(callLogItems);
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void displayCallLog(ArrayList<CallLogItem> callLog) {
-
+        Log.d("MainActivity", "Call List: " + callLog.get(0).getPhoneNumber());
     }
 
     @Override

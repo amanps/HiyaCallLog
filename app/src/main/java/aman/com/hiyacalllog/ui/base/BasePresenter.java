@@ -29,4 +29,8 @@ public class BasePresenter<T extends BaseView> implements Presenter<T> {
             super("No view attached! Call Presenter.attachView(view) first.");
         }
     }
+
+    public T getView() {
+        return mView;
+    }
 }
