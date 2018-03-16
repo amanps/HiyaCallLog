@@ -19,9 +19,21 @@ public class CallLogItem {
     private String mDate;
 
     public CallLogItem(Cursor cursor) {
-        setPhoneNumber(cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER)));
-        setType(cursor.getInt(cursor.getColumnIndex(CallLog.Calls.TYPE)));
-        setDate(cursor.getString(cursor.getColumnIndex(CallLog.Calls.DATE)));
+        this(cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER)),
+                cursor.getInt(cursor.getColumnIndex(CallLog.Calls.TYPE)),
+                cursor.getString(cursor.getColumnIndex(CallLog.Calls.DATE)));
+    }
+
+    public CallLogItem(String phoneNumber, int type, String date) {
+        setPhoneNumber(phoneNumber);
+        setType(type);
+        setDate(date);
+    }
+
+    public CallLogItem(String phoneNumber, int type, Date date) {
+        setPhoneNumber(phoneNumber);
+        setType(type);
+        setDate(date);
     }
 
     public String getPhoneNumber() {
@@ -40,8 +52,11 @@ public class CallLogItem {
         return mTypeColor;
     }
 
-    public void setDate(String dateString) {
-        Date date = new Date(Long.valueOf(dateString));
+    private void setDate(String dateString) {
+        setDate(new Date(Long.valueOf(dateString)));
+    }
+
+    private void setDate(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("hh:mma E MMMM d yyyy");
         mDate = format.format(date);
         mDate = mDate.replace("AM", "am").replace("PM", "pm");
