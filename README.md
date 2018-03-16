@@ -8,7 +8,7 @@
 
 <img src="/images/Screenshot_20180316-141032.png" width="256"> <img src="/images/Screenshot_20180316-141042.png" width="256"> <img src="/images/Screenshot_20180316-141048.png" width="256">
 
-### App Architecture:
+### App Architecture
 
 I'm following the MVP architecture.
 
@@ -31,4 +31,16 @@ I'm following the MVP architecture.
 │         ├── (I)MainMvpPresenter
 │         ├── (I)MainView
 │   ├── Utils
+├── test
+│   ├── CallLogModelTest
 ```
+
+### Notes
+
+I didn't use pull-to-refresh to update the call log. 
+
+I set up a state transition manager `PhoneCallStateManager` to receive broadcasts for new calls (incoming/outgoing) from `PhoneStateReceiver`. Using the observer patterm, this registers new calls on a `LiveData<>` object which any UI element can observe. 
+
+Although I have this set up in my code, I didn't use it to update the displayed CallLog dynamically.
+
+Instead, I used a `CursorLoader` to load CallLog data. `CursorLoader`s automatically register a `ContentObserver` on the underlying data source which triggers a reload when data changes. So, updates to the CallLog are observed and the `onLoadFinished` callback is triggered, which posts an update to the data held by the `RecyclerView`.
