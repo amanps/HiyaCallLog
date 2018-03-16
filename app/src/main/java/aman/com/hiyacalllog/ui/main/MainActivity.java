@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
-    MainPresenter mPresenter;
+    MainMvpPresenter<MainView> mPresenter;
 
     @BindView(R.id.call_log_list) RecyclerView mCallLog;
     @BindView(R.id.progress_indictor) ProgressBar mProgressBar;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mPresenter = new MainPresenter(this, getSupportLoaderManager());
+        mPresenter = new MainPresenter<>(this, getSupportLoaderManager());
         mPresenter.attachView(this);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

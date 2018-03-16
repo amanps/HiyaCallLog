@@ -21,7 +21,7 @@ import aman.com.hiyacalllog.ui.base.BasePresenter;
  * Created by amanpreetsingh on 3/15/18.
  */
 
-public class MainPresenter extends BasePresenter<MainView> implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainPresenter<V extends MainView> extends BasePresenter<V> implements MainMvpPresenter<V>, LoaderManager.LoaderCallbacks<Cursor> {
 
     private Context mContext;
     private LoaderManager mLoaderManager;
@@ -29,10 +29,10 @@ public class MainPresenter extends BasePresenter<MainView> implements LoaderMana
     public MainPresenter(Context context, LoaderManager loaderManager) {
         mContext = context;
         mLoaderManager = loaderManager;
-
     }
 
-    protected void loadCallLog() {
+    @Override
+    public void loadCallLog() {
         getView().displayProgressBar();
         if (!Utils.isPermissionGranted(mContext, Manifest.permission.READ_CALL_LOG) ||
                 !Utils.isPermissionGranted(mContext, Manifest.permission.PROCESS_OUTGOING_CALLS)) {
